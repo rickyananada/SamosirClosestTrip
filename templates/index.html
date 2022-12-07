@@ -46,35 +46,20 @@
 
 <div class="container" >
 <form method="POST" action="/predict">
-  <label for="datang">Tempat asal</label>
-	<input type="text" name="datang" class="form-control">
-  <label for="tujuan">Tempat tujuan</label>
-  <input type="text" name="tujuan" class="form-control">
+  <label for="datang">Start x</label>
+	<input type="text" name="start_x" class="form-control">
+  <label for="tujuan">Start Y</label>
+  <input type="text" name="start_y" class="form-control">
+  <label for="datang">End X</label>
+	<input type="text" name="end_x" class="form-control">
+  <label for="tujuan">End Y</label>
+  <input type="text" name="end_y" class="form-control">
 	<button type="reset" class="btn btn-primary">Clear</button>
 	<button type="submit" class="btn btn-primary">Predict</button>
 </form>
 </div>
 <br/>
 <br/>
-<div class="container">
-	<div class="row">
-		<div class="col-md-6">
-          <div class="card mb-10 shadow-sm" id="custom_card">
-          	<h4>Original Name</h4>
-          	<p>{{ name }}</p>
-			
-		</div>
-	</div>
-
-
-
-	<div class="col-md-6">
-          <div class="card mb-10 shadow-sm" id="custom_card2">
-          	<h4>Prediction</h4>
-			<div class="alert alert-success" role="alert"><p>{{ prediction }}</p></div>
-			
-		</div>
-	</div>
 </div>
 	<br/>
   <br/>

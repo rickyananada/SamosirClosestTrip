@@ -8,6 +8,9 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
 <!-- Material Design Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.3/css/mdb.min.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/sweetalert2.min.css')}}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/toastr.css')}}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/confirm.css')}}" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -45,17 +48,29 @@
 <br/>
 
 <div class="container" >
-<form method="POST" action="/predict">
+<form id="form_predict">
   <label for="datang">Start x</label>
-	<input type="text" name="start_x" class="form-control">
+	<input type="text" name="start_x" id="start_x" class="form-control">
+  <h5 id="text_start_x" style="color: red;">
+      **required
+  </h5>
   <label for="tujuan">Start Y</label>
-  <input type="text" name="start_y" class="form-control">
+  <input type="text" name="start_y" id="start_y" class="form-control">
+  <h5 id="text_start_y" style="color: red;">
+      **required
+  </h5>
   <label for="datang">End X</label>
-	<input type="text" name="end_x" class="form-control">
+	<input type="text" name="end_x" id="end_x" class="form-control">
+  <h5 id="text_end_x" style="color: red;">
+    **required
+  </h5>
   <label for="tujuan">End Y</label>
-  <input type="text" name="end_y" class="form-control">
+  <input type="text" name="end_y" id="end_y" class="form-control">
+  <h5 id="text_end_y" style="color: red;">
+    **required
+  </h5>
 	<button type="reset" class="btn btn-primary">Clear</button>
-	<button type="submit" class="btn btn-primary">Predict</button>
+	<button onclick="isHandleSaveExist('#predict');" type="button" id="predict" class="btn btn-primary">Predict</button>
 </form>
 </div>
 <br/>
@@ -75,6 +90,66 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.3/js/mdb.min.js"></script>
+<script src="{{ url_for('static', filename='js/toastr.js')}}"></script>
+<script src="{{ url_for('static', filename='js/confirm.js')}}"></script>
+<script src="{{ url_for('static', filename='js/sweetalert2.min.js')}}"></script>
+<script>
+const delay = ms => new Promise(res => setTimeout(res, ms));
+function handle_save(tombol){
+    $(tombol).prop("disabled", true);
+    $(tombol).html("Please wait");
+    let datas = $('#form_predict').serialize();
+    $.ajax({
+        type: "POST",
+        url: "/predict",
+        data: datas,
+        async: false,
+        dataType: 'json',
+    });
+}
 
+$('#text_start_x').hide();
+$('#text_start_y').hide();
+$('#text_end_x').hide();
+$('#text_end_y').hide();
+function isHandleSaveExist(button) {
+    let start_x = $('#start_x').val(),
+    start_y = $('#start_y').val(),
+    end_x = $('#end_x').val(),
+    end_y = $('#end_y').val();    
+    if(start_x.length == ""){
+      $('#text_start_x').show();
+      return false;
+    }else{
+      $('#text_start_x').hide();
+    }
+    if(start_y.length == ""){
+      $('#text_start_y').show();
+      return false;
+    }else{
+      $('#text_start_y').hide();
+    }
+    if(end_x.length == ""){
+      $('#text_end_x').show();
+      return false;
+    }else{
+      $('#text_end_x').hide();
+    }
+    if(end_y.length == ""){
+      $('#text_end_y').show();
+      return false;
+    }else{
+      $('#text_end_y').hide();
+    }
+    $.when(handle_save(button)).done(function (data) {
+      setTimeout(function () {
+      }, 20000);
+      window.open('/map','_blank');
+      $(button).prop("disabled", false);
+      $(button).html("Predict");
+      $('#form_predict')[0].reset();
+    });
+}
+</script>
 </body>
 </html>

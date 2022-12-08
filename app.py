@@ -17,8 +17,12 @@ def index():
 
 
 @app.route('/closest')
-def gender():
+def closest():
     return render_template('closest.html')
+
+@app.route('/map')
+def map():
+    return render_template('map.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -31,7 +35,7 @@ def predict():
     start_latlng = (start_x,start_y)
     end_latlng = (end_x,end_y)
     place = 'Samosir, North Sumatra, Indonesia'
-    mode      = 'bike' 
+    mode      = 'walk' 
     optimizer = 'length'  
     graph = ox.graph_from_place(place, network_type = mode)
     orig_node = ox.get_nearest_node(graph, start_latlng)

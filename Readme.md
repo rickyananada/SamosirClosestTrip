@@ -1,4 +1,3 @@
-# This web using Ai with branch and bound algorithm to get the closest trip in Samosir Regency
+# This web purpose is to get the closest trip in Samosir Regency
+# This project created by using Ai with branch and bound algorithm  
 
-# This code created by 
-# Me and My Friends
